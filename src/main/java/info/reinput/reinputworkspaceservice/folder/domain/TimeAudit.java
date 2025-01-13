@@ -1,4 +1,4 @@
-package info.reinput.reinputworkspaceservice.domain;
+package info.reinput.reinputworkspaceservice.folder.domain;
 
 
 import jakarta.persistence.Column;
