@@ -7,10 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,4 +26,15 @@ public class FolderController {
 
         return new ResponseEntity<>(res, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/{folderId}/v1")
+    public ResponseEntity<Void> deleteFolder(
+            @PathVariable final Long folderId,
+            @RequestHeader("X-User-Id") final Long memberId){
+        log.info("deleteFolder request : {}", folderId);
+        folderService.deleteFolder(folderId, memberId);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 }
