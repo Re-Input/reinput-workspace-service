@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -52,5 +53,19 @@ public class Folder {
     public void updateFolder(String name, Color color){
         this.name = name == null ? this.name : name;
         this.color = color == null ? this.color : color;
+    }
+
+    public void updateShare(boolean copyable) {
+        if (this.share == null) {
+            this.share = Share.builder()
+                    .id(UUID.randomUUID().toString())
+                    .isCopyable(copyable)
+                    .build();
+        } else {
+            this.share = Share.builder()
+                    .id(this.share.getId())
+                    .isCopyable(copyable)
+                    .build();
+        }
     }
 }

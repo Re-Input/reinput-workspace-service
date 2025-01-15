@@ -17,8 +17,19 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class Share {
-    @Id @GeneratedValue(strategy = GenerationType.UUID)
+    @Id
     private String id;
     private boolean isCopyable;
-    private String shareUrl;
+
+    public Share createShare(boolean copyable) {
+        return Share.builder()
+                .id(UUID.randomUUID().toString())
+                .isCopyable(copyable)
+                .build();
+    }
+
+    public Share updateShare(boolean copyable) {
+        this.isCopyable = copyable;
+        return this;
+    }
 }

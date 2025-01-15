@@ -3,6 +3,7 @@ package info.reinput.reinputworkspaceservice.folder.application.impl;
 import info.reinput.reinputworkspaceservice.folder.application.FolderService;
 import info.reinput.reinputworkspaceservice.folder.application.dto.FolderDto;
 import info.reinput.reinputworkspaceservice.folder.domain.Folder;
+import info.reinput.reinputworkspaceservice.folder.domain.Share;
 import info.reinput.reinputworkspaceservice.folder.infra.FolderRepository;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.req.FolderCreateReq;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.req.FolderPatchReq;
@@ -41,20 +42,34 @@ public class FolderServiceImpl implements FolderService {
     }
 
     @Transactional
-    public FolderDto updateFolder(final FolderPatchReq folderPatchReq, final Long memberId){
+    public FolderDto updateFolder(final FolderPatchReq folderPatchReq, final Long memberId) {
         log.info("updateFolder start");
+        boolean includeShare = folderPatchReq.share() != null;
 
-        Folder folder = folderRepository.findById(folderPatchReq.folderId()).orElseThrow(
-                () -> new IllegalArgumentException("Folder not found"));
-        if(!Objects.equals(folder.getMemberId(), memberId)){
+        Folder folder = folderRepository.fetchFolderWithOptionalShare(folderPatchReq.folderId(), includeShare);
+
+        if (folder == null) {
+            throw new IllegalArgumentException("Folder not found");
+        }
+        if (!Objects.equals(folder.getMemberId(), memberId)) {
             throw new IllegalArgumentException("Member not matched");
         }
 
         folder.updateFolder(folderPatchReq.folderName(), folderPatchReq.folderColor());
 
+        if (includeShare) {
+            folder.updateShare(folderPatchReq.share().isCopyable());
+        }
 
+        // TODO: Insight count 요청
+        int insightCount = 10; // 예시 값. 실제 구현에서는 외부 서비스 호출 필요.
+
+        return FolderDto.fromEntity(folder).setInsightCount(insightCount);
+    }
+
+    private int fetchInsightCount(Long folderId){
         //todo insight count request to insight service
-        return FolderDto.fromEntity(folder).setInsightCount(10);
+        return 10;
     }
 
 
