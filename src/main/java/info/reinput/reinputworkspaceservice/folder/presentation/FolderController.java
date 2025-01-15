@@ -3,6 +3,7 @@ package info.reinput.reinputworkspaceservice.folder.presentation;
 import info.reinput.reinputworkspaceservice.folder.application.FolderService;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.req.FolderCreateReq;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.req.FolderPatchReq;
+import info.reinput.reinputworkspaceservice.folder.presentation.dto.res.ApiResponse;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.res.FolderCreateRes;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.res.FolderRes;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +21,17 @@ public class FolderController {
     private final FolderService folderService;
 
     @PostMapping("create/v1")
-    public ResponseEntity<FolderCreateRes> createFolder(
+    public ResponseEntity<ApiResponse<FolderCreateRes>> createFolder(
             final FolderCreateReq folderCreateReq,
             final @RequestHeader("X-User-Id") Long memberId){
         log.info("createFolder request : {}", folderCreateReq);
         FolderCreateRes res = FolderCreateRes.fromDto(folderService.createFolder(folderCreateReq, memberId));
-
-        return new ResponseEntity<>(res, HttpStatus.CREATED);
+        ApiResponse<FolderCreateRes> response = ApiResponse.<FolderCreateRes>builder()
+                .status(HttpStatus.CREATED.value())
+                .message("Folder created")
+                .data(res)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{folderId}/v1")
@@ -40,12 +45,17 @@ public class FolderController {
     }
 
     @PatchMapping("/update/v1")
-    public ResponseEntity<FolderRes> updateFolder(
+    public ResponseEntity<ApiResponse<FolderRes>> updateFolder(
             final FolderPatchReq folderPatchReq,
             final @RequestHeader("X-User-Id") Long memberId){
         log.info("updateFolder request : {}", folderPatchReq.folderId());
         FolderRes res = FolderRes.fromDto(folderService.updateFolder(folderPatchReq, memberId));
-        return new ResponseEntity<>(res, HttpStatus.OK);
+        ApiResponse<FolderRes> response = ApiResponse.<FolderRes>builder()
+                .status(HttpStatus.OK.value())
+                .message("Folder updated")
+                .data(res)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }

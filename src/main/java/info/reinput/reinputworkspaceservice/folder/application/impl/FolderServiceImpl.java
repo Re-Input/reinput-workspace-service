@@ -35,6 +35,8 @@ public class FolderServiceImpl implements FolderService {
         if(!Objects.equals(folder.getMemberId(), memberId)){
             throw new IllegalArgumentException("Member not matched");
         }
+
+        //todo delete propagation to insight service
         folderRepository.delete(folder);
     }
 
