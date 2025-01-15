@@ -8,4 +8,9 @@ public record FolderCreateReq (
         String folderName,
         Color folderColor
 ){
+    public FolderCreateReq{
+        if(folderColor == null){
+            folderColor = Color.BLUE;
+        }
+    }
 }

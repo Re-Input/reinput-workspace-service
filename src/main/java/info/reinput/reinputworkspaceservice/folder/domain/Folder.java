@@ -48,4 +48,9 @@ public class Folder {
                 .memberId(memberId)
                 .build();
     }
+
+    public void updateFolder(String name, Color color){
+        this.name = name == null ? this.name : name;
+        this.color = color == null ? this.color : color;
+    }
 }

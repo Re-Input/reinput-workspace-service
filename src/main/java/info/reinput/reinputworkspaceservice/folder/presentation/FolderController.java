@@ -2,7 +2,9 @@ package info.reinput.reinputworkspaceservice.folder.presentation;
 
 import info.reinput.reinputworkspaceservice.folder.application.FolderService;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.req.FolderCreateReq;
+import info.reinput.reinputworkspaceservice.folder.presentation.dto.req.FolderPatchReq;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.res.FolderCreateRes;
+import info.reinput.reinputworkspaceservice.folder.presentation.dto.res.FolderRes;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -35,6 +37,15 @@ public class FolderController {
         folderService.deleteFolder(folderId, memberId);
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/update/v1")
+    public ResponseEntity<FolderRes> updateFolder(
+            final FolderPatchReq folderPatchReq,
+            final @RequestHeader("X-User-Id") Long memberId){
+        log.info("updateFolder request : {}", folderPatchReq.folderId());
+        FolderRes res = FolderRes.fromDto(folderService.updateFolder(folderPatchReq, memberId));
+        return new ResponseEntity<>(res, HttpStatus.OK);
     }
 
 }
