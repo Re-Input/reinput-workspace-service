@@ -3,6 +3,7 @@ package info.reinput.reinputworkspaceservice.folder.application.dto;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import info.reinput.reinputworkspaceservice.folder.domain.Color;
 import info.reinput.reinputworkspaceservice.folder.domain.Folder;
+import info.reinput.reinputworkspaceservice.folder.domain.Share;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,8 @@ public record FolderDto (
         Color color,
         Long memberId,
         LocalDateTime createdAt,
-        Integer insightCount
+        Integer insightCount,
+        Share share
 ){
     public Folder toEntity(){
         return Folder.builder()
