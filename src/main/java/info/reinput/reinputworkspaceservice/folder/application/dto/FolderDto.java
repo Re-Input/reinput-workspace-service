@@ -37,13 +37,13 @@ public record FolderDto (
                 .build();
     }
 
-    public FolderDto setInsightCount(Integer insightCount){
+    public static FolderDto fromEntity(Folder folder, Integer insightCount){
         return FolderDto.builder()
-                .id(id)
-                .name(name)
-                .color(color)
-                .memberId(memberId)
-                .createdAt(createdAt)
+                .id(folder.getId())
+                .name(folder.getName())
+                .color(folder.getColor())
+                .memberId(folder.getMemberId())
+                .createdAt(folder.getCreatedAt())
                 .insightCount(insightCount)
                 .build();
     }

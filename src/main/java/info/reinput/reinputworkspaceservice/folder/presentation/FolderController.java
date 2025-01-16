@@ -1,11 +1,13 @@
 package info.reinput.reinputworkspaceservice.folder.presentation;
 
 import info.reinput.reinputworkspaceservice.folder.application.FolderService;
+import info.reinput.reinputworkspaceservice.folder.application.dto.FolderCollection;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.req.FolderCreateReq;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.req.FolderPatchReq;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.res.ApiResponse;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.res.FolderCreateRes;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.res.FolderRes;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -54,6 +56,19 @@ public class FolderController {
                 .status(HttpStatus.OK.value())
                 .message("Folder updated")
                 .data(res)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/v1")
+    public ResponseEntity<ApiResponse<FolderCollection>> getFolders(
+            final @RequestHeader("X-User-Id") Long memberId){
+        log.info("getFolders request : {}", memberId);
+        FolderCollection folderCollection = folderService.getFolders(memberId);
+        ApiResponse<FolderCollection> response = ApiResponse.<FolderCollection>builder()
+                .status(HttpStatus.OK.value())
+                .message("Folders retrieved")
+                .data(folderCollection)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
