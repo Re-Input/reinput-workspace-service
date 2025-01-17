@@ -13,4 +13,7 @@ public interface FolderRepository extends JpaRepository<Folder, Long>, FolderRep
 
     @Query("select f from Folder f where f.memberId = :memberId")
     Optional<List<Folder>> findByMemberId(Long memberId);
+
+    @Query("select f from Folder f where f.id = :id and f.memberId = :memberId")
+    Optional<Folder> findByIdAndMemberId(Long id, Long memberId);
 }

@@ -11,7 +11,7 @@ import static info.reinput.reinputworkspaceservice.folder.domain.QFolder.folder;
 
 @Repository
 @RequiredArgsConstructor
-public abstract class FolderRepositoryCustomImpl implements FolderRepositoryCustom {
+public class FolderRepositoryCustomImpl implements FolderRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 

@@ -21,7 +21,7 @@ public class Share {
     private String id;
     private boolean isCopyable;
 
-    public Share createShare(boolean copyable) {
+    public static Share createShare(boolean copyable) {
         return Share.builder()
                 .id(UUID.randomUUID().toString())
                 .isCopyable(copyable)

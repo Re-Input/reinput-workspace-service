@@ -68,4 +68,8 @@ public class Folder {
                     .build();
         }
     }
+
+    public Share createShare(boolean copyable) {
+        return this.share = Share.createShare(copyable);
+    }
 }
