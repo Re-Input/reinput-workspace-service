@@ -1,6 +1,7 @@
 package info.reinput.reinputworkspaceservice.folder.presentation;
 
 import info.reinput.reinputworkspaceservice.folder.application.ShareService;
+import info.reinput.reinputworkspaceservice.folder.application.dto.FolderDto;
 import info.reinput.reinputworkspaceservice.folder.application.dto.ShareDto;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.req.ShareCreateReq;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.res.ApiResponse;
@@ -29,4 +30,18 @@ public class ShareApiController {
                 .build();
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+
+    @GetMapping("/copy/{shareId}/v1")
+    public ResponseEntity<ApiResponse<FolderDto>> copySharedFolder(
+            @PathVariable final Long shareId,
+            @RequestHeader("X-User-Id") final Long memberId) {
+        log.info("copySharedFolder request : {}", shareId);
+        ApiResponse<FolderDto> response = ApiResponse.<FolderDto>builder()
+                .status(HttpStatus.CREATED.value())
+                .message("Folder copied")
+                .data(shareService.copySharedFolder(shareId, memberId))
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
 }

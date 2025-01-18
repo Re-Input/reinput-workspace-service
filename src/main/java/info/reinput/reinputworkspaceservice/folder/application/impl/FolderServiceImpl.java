@@ -80,6 +80,7 @@ public class FolderServiceImpl implements FolderService {
         return FolderCollection.fromEntities(folders, insightCounts);
     }
 
+
     private int fetchInsightCount(Long folderId){
         //todo insight count request to insight service
         return 1;

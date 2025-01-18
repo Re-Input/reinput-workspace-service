@@ -72,4 +72,12 @@ public class Folder {
     public Share createShare(boolean copyable) {
         return this.share = Share.createShare(copyable);
     }
+
+    public static Folder copyFolder(Folder folder, Long memberId) {
+        return Folder.builder()
+                .name(folder.getName())
+                .color(folder.getColor())
+                .memberId(memberId)
+                .build();
+    }
 }

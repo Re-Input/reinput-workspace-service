@@ -1,6 +1,7 @@
 package info.reinput.reinputworkspaceservice.folder.application.impl;
 
 import info.reinput.reinputworkspaceservice.folder.application.ShareService;
+import info.reinput.reinputworkspaceservice.folder.application.dto.FolderDto;
 import info.reinput.reinputworkspaceservice.folder.application.dto.ShareDto;
 import info.reinput.reinputworkspaceservice.folder.domain.Folder;
 import info.reinput.reinputworkspaceservice.folder.infra.FolderRepository;
@@ -27,8 +28,27 @@ public class ShareServiceImpl implements ShareService {
         Folder folder = folderRepository.findByIdAndMemberId(shareCreateReq.folderId(),memberId)
                 .orElseThrow(() -> new IllegalArgumentException("Folder not found"));
 
+        //todo check share duplication
+
+        //todo create share propagation to insight service
+
         return ShareDto.fromEntity(folder.createShare(shareCreateReq.isCopyable()));
 
+    }
+
+    @Override
+    @Transactional
+    public FolderDto copySharedFolder(final Long shareId, final Long memberId){
+        log.info("copySharedFolder shareId : {}, memberId : {}", shareId, memberId);
+
+        Folder folder = folderRepository.fetchFolderWithShare(shareId)
+                .orElseThrow(() -> new IllegalArgumentException("Folder not found"));
+
+        Folder copiedFolder = Folder.copyFolder(folder, memberId);
+
+        //todo copy propagation to insight service
+
+        return FolderDto.fromEntity(folderRepository.save(copiedFolder));
     }
 
 }
