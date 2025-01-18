@@ -44,11 +44,21 @@ public class ShareServiceImpl implements ShareService {
         Folder folder = folderRepository.fetchFolderWithShare(shareId)
                 .orElseThrow(() -> new IllegalArgumentException("Folder not found"));
 
+        validateShareFolder(folder);
+
         Folder copiedFolder = Folder.copyFolder(folder, memberId);
 
         //todo copy propagation to insight service
 
         return FolderDto.fromEntity(folderRepository.save(copiedFolder));
+    }
+
+    private static void validateShareFolder(Folder folder) {
+        if(folder.getShare() == null){
+            throw new IllegalArgumentException("Folder is not shared");
+        }else if (!folder.getShare().isCopyable()){
+            throw new IllegalArgumentException("Folder is not copyable");
+        }
     }
 
 }
