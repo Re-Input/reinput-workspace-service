@@ -4,7 +4,6 @@ import info.reinput.reinputworkspaceservice.folder.application.FolderService;
 import info.reinput.reinputworkspaceservice.folder.application.dto.FolderCollection;
 import info.reinput.reinputworkspaceservice.folder.application.dto.FolderDto;
 import info.reinput.reinputworkspaceservice.folder.domain.Folder;
-import info.reinput.reinputworkspaceservice.folder.domain.Share;
 import info.reinput.reinputworkspaceservice.folder.infra.FolderRepository;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.req.FolderCreateReq;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.req.FolderPatchReq;
@@ -78,6 +77,17 @@ public class FolderServiceImpl implements FolderService {
         List<Integer> insightCounts = fetchInsightCounts(folders.stream().map(Folder::getId).toList());
 
         return FolderCollection.fromEntities(folders, insightCounts);
+    }
+
+    @Transactional
+    public FolderCollection createFolders(final List<FolderCreateReq> folderCreateReqs, final Long memberId){
+        log.info("saveFolders start");
+        List<Folder> folders = folderCreateReqs.stream()
+                .map(folderCreateReq -> Folder.createFolder(folderCreateReq.folderName(), folderCreateReq.folderColor(), memberId))
+                .toList();
+        List<Folder> savedFolders = folderRepository.saveAll(folders);
+
+        return FolderCollection.fromEntities(savedFolders, fetchInsightCounts(savedFolders.stream().map(Folder::getId).toList()));
     }
 
 

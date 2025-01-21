@@ -12,6 +12,6 @@ public interface FolderService {
     void deleteFolder(final Long folderId, final Long memberId);
     FolderDto updateFolder(final FolderPatchReq folderPatchReq, final Long memberId);
     FolderCollection getFolders(final Long memberId);
-
+    FolderCollection createFolders(final List<FolderCreateReq> folderCreateReqs, final Long memberId);
 
 }
