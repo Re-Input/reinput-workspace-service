@@ -14,6 +14,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/folder")
@@ -71,6 +73,21 @@ public class FolderController {
                 .data(folderCollection)
                 .build();
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PostMapping("/batch-create/v1")
+    public ResponseEntity<ApiResponse<FolderCollection>> createFolders(
+            final @RequestHeader("X-User-Id") Long memberId,
+            final @RequestBody List<FolderCreateReq> folderCreateReqs){
+        log.info("createFolders request : {}", folderCreateReqs);
+        FolderCollection folderCollection = folderService.createFolders(folderCreateReqs, memberId);
+        ApiResponse<FolderCollection> response = ApiResponse.<FolderCollection>builder()
+                .status(HttpStatus.CREATED.value())
+                .message("Folders created")
+                .data(folderCollection)
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
 }
