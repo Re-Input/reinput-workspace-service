@@ -1,4 +1,11 @@
 spring:
+  profiles:
+    active: dev
+---
+server:
+  port: 8084
+
+spring:
   config:
     activate:
       on-profile: dev
@@ -31,6 +38,5 @@ eureka:
   instance:
     instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
     prefer-ip-address: true
-server:
-  port: 8084
+
 
