@@ -18,6 +18,6 @@ public interface FolderRepository extends JpaRepository<Folder, Long>, FolderRep
     @Query("select f from Folder f where f.id = :id and f.memberId = :memberId")
     Optional<Folder> findByIdAndMemberId(Long id, Long memberId);
 
-    @Query("select f from Folder f join fetch f.share s where s.id = :shareId")
+    @Query("select f from Folder f where f.share.id = :shareId")
     Optional<Folder> fetchFolderWithShare(Long shareId);
 }
