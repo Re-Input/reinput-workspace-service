@@ -38,7 +38,7 @@ public class ShareServiceImpl implements ShareService {
 
     @Override
     @Transactional
-    public FolderDto copySharedFolder(final Long shareId, final Long memberId){
+    public FolderDto copySharedFolder(final String shareId, final Long memberId){
         log.info("copySharedFolder shareId : {}, memberId : {}", shareId, memberId);
 
         Folder folder = folderRepository.fetchFolderWithShare(shareId)

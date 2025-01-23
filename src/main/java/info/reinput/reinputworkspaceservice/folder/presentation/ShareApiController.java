@@ -33,7 +33,7 @@ public class ShareApiController {
 
     @GetMapping("/copy/{shareId}/v1")
     public ResponseEntity<ApiResponse<FolderDto>> copySharedFolder(
-            @PathVariable final Long shareId,
+            @PathVariable final String shareId,
             @RequestHeader("X-User-Id") final Long memberId) {
         log.info("copySharedFolder request : {}", shareId);
         ApiResponse<FolderDto> response = ApiResponse.<FolderDto>builder()

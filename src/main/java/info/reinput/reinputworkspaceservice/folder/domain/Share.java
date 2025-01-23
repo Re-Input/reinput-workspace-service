@@ -17,7 +17,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class Share {
-    @Id
     private String id;
     private boolean isCopyable;
 

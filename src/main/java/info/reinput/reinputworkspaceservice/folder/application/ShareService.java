@@ -6,5 +6,5 @@ import info.reinput.reinputworkspaceservice.folder.presentation.dto.req.ShareCre
 
 public interface ShareService {
     ShareDto createShare(final ShareCreateReq shareCreateReq, final Long memberId);
-    FolderDto copySharedFolder(final Long shareId, final Long memberId);
+    FolderDto copySharedFolder(final String shareId, final Long memberId);
 }
