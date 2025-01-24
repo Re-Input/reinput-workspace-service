@@ -34,3 +34,12 @@ eureka:
 server:
   port: 8084
 
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    config-url: /folder/v3/api-docs/swagger-config
+    url: /folder/v3/api-docs
+    disable-swagger-default-url: true
+  api-docs:
+    path: /v3/api-docs
