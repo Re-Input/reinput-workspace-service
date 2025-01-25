@@ -1,8 +1,11 @@
 package info.reinput.reinputworkspaceservice.global.config;
 
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import org.springdoc.core.customizers.OperationCustomizer;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,34 +19,31 @@ public class SwaggerConfig {
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
                 .group("public")
-                .pathsToMatch("/**") // 모든 경로 적용
-                .addOperationCustomizer((operation, handlerMethod) -> {
-                    // X-User-Id 헤더 제거
-                    if (operation.getParameters() != null) {
-                        operation.getParameters().removeIf(param -> "X-User-Id".equalsIgnoreCase(param.getName()));
-                    }
-                    return operation;
-                })
+                .pathsToMatch("/**")
                 .build();
     }
 
     @Bean
     public OpenAPI openAPI() {
-        OpenAPI openAPI = new OpenAPI()
+        return new OpenAPI()
                 .servers(createServers())
-                .info(createApiInfo());
+                .info(createApiInfo())
+                .components(new Components()
+                        .addSecuritySchemes("bearer-jwt", new SecurityScheme()
+                                .type(SecurityScheme.Type.HTTP)
+                                .scheme("bearer")
+                                .bearerFormat("JWT")));
+    }
 
-        // Paths가 null인 경우 초기화
-        if (openAPI.getPaths() != null) {
-            openAPI.getPaths().forEach((path, pathItem) ->
-                    pathItem.readOperations().forEach(operation -> {
-                        if (operation.getParameters() != null) {
-                            operation.getParameters().removeIf(param -> "X-User-Id".equalsIgnoreCase(param.getName()));
-                        }
-                    }));
-        }
-
-        return openAPI;
+    @Bean
+    public OperationCustomizer operationCustomizer() {
+        return (operation, handlerMethod) -> {
+            if (operation.getParameters() != null) {
+                operation.getParameters().removeIf(param ->
+                        "X-User-Id".equalsIgnoreCase(param.getName()));
+            }
+            return operation;
+        };
     }
 
     private List<Server> createServers() {
