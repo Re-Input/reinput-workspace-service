@@ -7,6 +7,7 @@ import info.reinput.reinputworkspaceservice.folder.presentation.dto.req.FolderPa
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.res.ApiResponse;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.res.FolderCreateRes;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.res.FolderRes;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,7 @@ public class FolderController {
     @PostMapping("create/v1")
     public ResponseEntity<ApiResponse<FolderCreateRes>> createFolder(
             final FolderCreateReq folderCreateReq,
-            final @RequestHeader("X-User-Id") Long memberId){
+            final @Parameter(hidden = true) @RequestHeader("X-User-Id") Long memberId){
         log.info("createFolder request : {}", folderCreateReq);
         FolderCreateRes res = FolderCreateRes.fromDto(folderService.createFolder(folderCreateReq, memberId));
         ApiResponse<FolderCreateRes> response = ApiResponse.<FolderCreateRes>builder()
@@ -41,7 +42,7 @@ public class FolderController {
     @DeleteMapping("/{folderId}/v1")
     public ResponseEntity<Void> deleteFolder(
             @PathVariable final Long folderId,
-            @RequestHeader("X-User-Id") final Long memberId){
+            @Parameter(hidden = true) @RequestHeader("X-User-Id") final Long memberId){
         log.info("deleteFolder request : {}", folderId);
         folderService.deleteFolder(folderId, memberId);
 
@@ -51,7 +52,7 @@ public class FolderController {
     @PatchMapping("/update/v1")
     public ResponseEntity<ApiResponse<FolderRes>> updateFolder(
             final FolderPatchReq folderPatchReq,
-            final @RequestHeader("X-User-Id") Long memberId){
+            final @Parameter(hidden = true) @RequestHeader("X-User-Id") Long memberId){
         log.info("updateFolder request : {}", folderPatchReq.folderId());
         FolderRes res = FolderRes.fromDto(folderService.updateFolder(folderPatchReq, memberId));
         ApiResponse<FolderRes> response = ApiResponse.<FolderRes>builder()
@@ -64,7 +65,7 @@ public class FolderController {
 
     @GetMapping("/v1")
     public ResponseEntity<ApiResponse<FolderCollection>> getFolders(
-            final @RequestHeader("X-User-Id") Long memberId){
+            final @Parameter(hidden = true) @RequestHeader("X-User-Id") Long memberId){
         log.info("getFolders request : {}", memberId);
         FolderCollection folderCollection = folderService.getFolders(memberId);
         ApiResponse<FolderCollection> response = ApiResponse.<FolderCollection>builder()
@@ -77,7 +78,7 @@ public class FolderController {
 
     @PostMapping("/batch-create/v1")
     public ResponseEntity<ApiResponse<FolderCollection>> createFolders(
-            final @RequestHeader("X-User-Id") Long memberId,
+            final @Parameter(hidden = true) @RequestHeader("X-User-Id") Long memberId,
             final @RequestBody List<FolderCreateReq> folderCreateReqs){
         log.info("createFolders request : {}", folderCreateReqs);
         FolderCollection folderCollection = folderService.createFolders(folderCreateReqs, memberId);
