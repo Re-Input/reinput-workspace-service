@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Service
@@ -66,7 +67,7 @@ public class FolderServiceImpl implements FolderService {
         }
 
 
-        int insightCount = fetchInsightCount(folder.getId(), memberId);
+        Long insightCount = fetchInsightCount(folder.getId(), memberId);
 
         return FolderDto.fromEntity(folder, insightCount);
     }
@@ -75,7 +76,8 @@ public class FolderServiceImpl implements FolderService {
         log.info("getFolders start");
         List<Folder> folders = folderRepository.findByMemberId(memberId)
                 .orElseThrow(() -> new IllegalArgumentException("Folder not found"));
-        List<Integer> insightCounts = fetchInsightCounts(folders.stream().map(Folder::getId).toList(), memberId);
+
+        Map<Long, Long> insightCounts = fetchInsightCounts(folders.stream().map(Folder::getId).toList(), memberId);
 
         return FolderCollection.fromEntities(folders, insightCounts);
     }
@@ -92,12 +94,12 @@ public class FolderServiceImpl implements FolderService {
     }
 
 
-    private Integer fetchInsightCount(final Long folderId, final Long memberId){
+    private Long fetchInsightCount(final Long folderId, final Long memberId){
         return contentPort.countInsight(folderId, memberId);
     }
 
-    private List<Integer> fetchInsightCounts(final List<Long> folderIds,final Long memberId){
-        return contentPort.countInsight(folderIds, memberId);
+    private Map<Long, Long> fetchInsightCounts(final List<Long> folderIds, final Long memberId){
+        return contentPort.countInsight(folderIds, memberId).insightCountMap();
     }
 
 
