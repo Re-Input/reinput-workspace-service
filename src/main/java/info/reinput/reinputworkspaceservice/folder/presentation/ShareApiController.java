@@ -5,6 +5,7 @@ import info.reinput.reinputworkspaceservice.folder.application.dto.FolderDto;
 import info.reinput.reinputworkspaceservice.folder.application.dto.ShareDto;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.req.ShareCreateReq;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.res.ApiResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -18,6 +19,10 @@ import org.springframework.web.bind.annotation.*;
 public class ShareApiController {
     private final ShareService shareService;
 
+    @Operation(
+            summary = "[미완성] Create Share",
+            description = "폴더를 공유합니다. 폴더 내 인사이트들의 공유 설정 구현이 완료되지 않았습니다."
+    )
     @PostMapping("create/v1")
     public ResponseEntity<ApiResponse<ShareDto>> createShare(
             @RequestBody final ShareCreateReq shareCreateReq,
@@ -31,6 +36,10 @@ public class ShareApiController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @Operation(
+            summary = "[미완성] Copy Shared Folder",
+            description = "공유된 폴더를 복사합니다. 폴더 내 인사이트들의 복사 설정 구현이 완료되지 않았습니다."
+    )
     @GetMapping("/copy/{shareId}/v1")
     public ResponseEntity<ApiResponse<FolderDto>> copySharedFolder(
             @PathVariable final String shareId,
