@@ -16,7 +16,7 @@ public record FolderDto (
         Color color,
         Long memberId,
         LocalDateTime createdAt,
-        Integer insightCount,
+        Long insightCount,
         Share share
 ){
     public Folder toEntity(){
@@ -37,7 +37,7 @@ public record FolderDto (
                 .build();
     }
 
-    public static FolderDto fromEntity(Folder folder, Integer insightCount){
+    public static FolderDto fromEntity(Folder folder, Long insightCount){
         return FolderDto.builder()
                 .id(folder.getId())
                 .name(folder.getName())

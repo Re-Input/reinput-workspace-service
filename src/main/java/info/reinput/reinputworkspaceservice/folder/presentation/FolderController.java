@@ -50,8 +50,8 @@ public class FolderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "[미완성] Update Folder",
-            description = "폴더 정보를 수정합니다. 인사이트와 미연동으로 인사이트 결과가 정확하지 않습니다.")
+    @Operation(summary = "Update Folder",
+            description = "폴더 정보를 수정합니다. ")
     @PatchMapping("/update/v1")
     public ResponseEntity<ApiResponse<FolderRes>> updateFolder(
             final FolderPatchReq folderPatchReq,
@@ -66,8 +66,8 @@ public class FolderController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Operation(summary = "[미완성] Get Folders",
-            description = "폴더 목록을 조회합니다. 인사이트와 미연동으로 인사이트 결과가 정확하지 않습니다.")
+    @Operation(summary = "Get Folders",
+            description = "폴더 목록을 조회합니다.")
     @GetMapping("/v1")
     public ResponseEntity<ApiResponse<FolderCollection>> getFolders(
             final @Parameter(hidden = true) @RequestHeader("X-User-Id") Long memberId){
@@ -81,8 +81,8 @@ public class FolderController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Operation(summary = "[미완성] Batch Create Folders",
-            description = "폴더를 여러 개 생성합니다. 인사이트와 미연동으로 인사이트 결과가 정확하지 않습니다.")
+    @Operation(summary = "Batch Create Folders",
+            description = "폴더를 여러 개 생성합니다")
     @PostMapping("/batch-create/v1")
     public ResponseEntity<ApiResponse<FolderCollection>> createFolders(
             final @Parameter(hidden = true) @RequestHeader("X-User-Id") Long memberId,
