@@ -9,7 +9,7 @@ public record FolderRes (
         Long folderId,
         String folderName,
         String folderColor,
-        Integer insightCount,
+        Long insightCount,
         @JsonInclude(JsonInclude.Include.NON_NULL)
         ShareRes share
 ){
