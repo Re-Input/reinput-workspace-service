@@ -1,10 +1,13 @@
 package info.reinput.reinputworkspaceservice.global.config;
 
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
+import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 import org.springdoc.core.customizers.OperationCustomizer;
 import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
@@ -60,5 +63,18 @@ public class SwaggerConfig {
                 .description("""
                         Reinput Folder Service (workspace service)
                         """);
+    }
+
+    @Configuration
+    @RequiredArgsConstructor
+    public static class QueryDslConfig {
+
+        private final EntityManager entityManager;
+
+        @Bean
+        public JPAQueryFactory jpaQueryFactory() {
+            return new JPAQueryFactory(entityManager);
+        }
+
     }
 }
