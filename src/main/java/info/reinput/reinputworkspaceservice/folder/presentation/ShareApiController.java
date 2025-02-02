@@ -20,8 +20,8 @@ public class ShareApiController {
     private final ShareService shareService;
 
     @Operation(
-            summary = "[미완성] Create Share",
-            description = "폴더를 공유합니다. 폴더 내 인사이트들의 공유 설정 구현이 완료되지 않았습니다."
+            summary = "[107] Create Share",
+            description = "폴더를 공유합니다."
     )
     @PostMapping("create/v1")
     public ResponseEntity<ApiResponse<ShareDto>> createShare(

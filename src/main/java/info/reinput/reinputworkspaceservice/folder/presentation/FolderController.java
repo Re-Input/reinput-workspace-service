@@ -26,6 +26,10 @@ public class FolderController {
 
     private final FolderService folderService;
 
+    @Operation(
+            summary = "[102] Create Folder",
+            description = "폴더를 생성합니다."
+    )
     @PostMapping("create/v1")
     public ResponseEntity<ApiResponse<FolderCreateRes>> createFolder(
             final FolderCreateReq folderCreateReq,
@@ -40,6 +44,8 @@ public class FolderController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "[101] [미완성] Delete Folder",
+            description = "폴더를 삭제합니다. 인사이트 서비스와 미연동으로 인한 폴더 삭제후에도 인사이트가 남아있을 수 있습니다.")
     @DeleteMapping("/{folderId}/v1")
     public ResponseEntity<Void> deleteFolder(
             @PathVariable final Long folderId,
@@ -50,7 +56,7 @@ public class FolderController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @Operation(summary = "Update Folder",
+    @Operation(summary = "[108] Update Folder",
             description = "폴더 정보를 수정합니다. ")
     @PatchMapping("/update/v1")
     public ResponseEntity<ApiResponse<FolderRes>> updateFolder(
@@ -66,7 +72,7 @@ public class FolderController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Operation(summary = "Get Folders",
+    @Operation(summary = "[109] Get Folders",
             description = "폴더 목록을 조회합니다.")
     @GetMapping("/v1")
     public ResponseEntity<ApiResponse<FolderCollection>> getFolders(
@@ -81,7 +87,7 @@ public class FolderController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @Operation(summary = "Batch Create Folders",
+    @Operation(summary = "[x] Batch Create Folders",
             description = "폴더를 여러 개 생성합니다")
     @PostMapping("/batch-create/v1")
     public ResponseEntity<ApiResponse<FolderCollection>> createFolders(
