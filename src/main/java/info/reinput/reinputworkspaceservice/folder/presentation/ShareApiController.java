@@ -20,6 +20,23 @@ public class ShareApiController {
     private final ShareService shareService;
 
     @Operation(
+            summary = "[106] Copy Shared Folder",
+            description = "공유된 폴더를 복사합니다. 폴더 내 인사이트들의 복사 설정 구현이 완료되지 않았습니다."
+    )
+    @GetMapping("/copy/{shareId}/v1")
+    public ResponseEntity<ApiResponse<FolderDto>> copySharedFolder(
+            @PathVariable final String shareId,
+            @RequestHeader("X-User-Id") final Long memberId) {
+        log.info("copySharedFolder request : {}", shareId);
+        ApiResponse<FolderDto> response = ApiResponse.<FolderDto>builder()
+                .status(HttpStatus.CREATED.value())
+                .message("Folder copied")
+                .data(shareService.copySharedFolder(shareId, memberId))
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    @Operation(
             summary = "[107] Create Share",
             description = "폴더를 공유합니다."
     )
@@ -36,21 +53,6 @@ public class ShareApiController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    @Operation(
-            summary = "[미완성] Copy Shared Folder",
-            description = "공유된 폴더를 복사합니다. 폴더 내 인사이트들의 복사 설정 구현이 완료되지 않았습니다."
-    )
-    @GetMapping("/copy/{shareId}/v1")
-    public ResponseEntity<ApiResponse<FolderDto>> copySharedFolder(
-            @PathVariable final String shareId,
-            @RequestHeader("X-User-Id") final Long memberId) {
-        log.info("copySharedFolder request : {}", shareId);
-        ApiResponse<FolderDto> response = ApiResponse.<FolderDto>builder()
-                .status(HttpStatus.CREATED.value())
-                .message("Folder copied")
-                .data(shareService.copySharedFolder(shareId, memberId))
-                .build();
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
-    }
+
 
 }
