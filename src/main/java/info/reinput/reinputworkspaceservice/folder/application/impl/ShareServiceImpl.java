@@ -3,6 +3,7 @@ package info.reinput.reinputworkspaceservice.folder.application.impl;
 import info.reinput.reinputworkspaceservice.folder.application.ShareService;
 import info.reinput.reinputworkspaceservice.folder.application.dto.FolderDto;
 import info.reinput.reinputworkspaceservice.folder.application.dto.ShareDto;
+import info.reinput.reinputworkspaceservice.folder.application.port.out.ContentPort;
 import info.reinput.reinputworkspaceservice.folder.domain.Folder;
 import info.reinput.reinputworkspaceservice.folder.infra.FolderRepository;
 import info.reinput.reinputworkspaceservice.folder.presentation.dto.req.ShareCreateReq;
@@ -19,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class ShareServiceImpl implements ShareService {
 
     private final FolderRepository folderRepository;
+    private final ContentPort contentPort;
 
     @Override
     @Transactional
@@ -48,9 +50,9 @@ public class ShareServiceImpl implements ShareService {
 
         Folder copiedFolder = Folder.copyFolder(folder, memberId);
 
-        //todo copy propagation to insight service
+        Long count = contentPort.copyInsight(copiedFolder.getId(), memberId);
 
-        return FolderDto.fromEntity(folderRepository.save(copiedFolder));
+        return FolderDto.fromEntity(copiedFolder, count);
     }
 
     private static void validateShareFolder(Folder folder) {
