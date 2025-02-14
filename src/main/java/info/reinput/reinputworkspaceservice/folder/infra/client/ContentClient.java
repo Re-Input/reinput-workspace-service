@@ -21,4 +21,10 @@ public interface ContentClient {
             @PathVariable final List<Long> folderIds,
             @RequestHeader("X-User-Id") final Long memberId
     );
+
+    @GetMapping("/insight/copy/{folderId}")
+    ApiResponse<Integer> copyInsight(
+            @PathVariable final Long folderId,
+            @RequestHeader("X-User-Id") final Long memberId
+    );
 }

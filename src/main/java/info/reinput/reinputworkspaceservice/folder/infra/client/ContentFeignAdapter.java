@@ -29,5 +29,12 @@ public class ContentFeignAdapter implements ContentPort {
         return contentClient.countInsight(folderIds, memberId).data();
     }
 
+    @Override
+    public Integer copyInsight(final Long folderId, final Long memberId) {
+        log.info("copyInsight folderId : {}, memberId : {}", folderId, memberId);
+
+        return contentClient.copyInsight(folderId, memberId).data();
+    }
+
 
 }
