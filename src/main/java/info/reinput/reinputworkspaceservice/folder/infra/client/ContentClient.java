@@ -12,19 +12,19 @@ import java.util.List;
 public interface ContentClient {
     @GetMapping("/insight/count/folder/{folderId}")
     ApiResponse<Long> countInsight(
-            @PathVariable final Long folderId,
+            @PathVariable("folderId") final Long folderId,
             @RequestHeader("X-User-Id") final Long memberId
     );
 
     @GetMapping("/insight/count/folders/{folderIds}")
     ApiResponse<InsightCountCollection> countInsight(
-            @PathVariable final List<Long> folderIds,
+            @PathVariable("folderIds") final List<Long> folderIds,
             @RequestHeader("X-User-Id") final Long memberId
     );
 
     @GetMapping("/insight/copy/{folderId}")
     ApiResponse<Long> copyInsight(
-            @PathVariable final Long folderId,
+            @PathVariable("folderId") final Long folderId,
             @RequestHeader("X-User-Id") final Long memberId
     );
 }
