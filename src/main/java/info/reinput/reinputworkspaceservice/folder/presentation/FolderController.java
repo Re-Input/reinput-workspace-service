@@ -87,6 +87,22 @@ public class FolderController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Operation(summary = "시스템 연동용 Get Folder",
+            description = "폴더 정보를 조회합니다. 시스템 연동용")
+    @GetMapping("/{folderId}/v1")
+    public ResponseEntity<ApiResponse<FolderRes>> getFolder(
+            @PathVariable final Long folderId,
+            @Parameter(hidden = true) @RequestHeader("X-User-Id") final Long memberId){
+        log.info("getFolder request : {}", folderId);
+        FolderRes res = FolderRes.fromDto(folderService.getFolder(folderId, memberId));
+        ApiResponse<FolderRes> response = ApiResponse.<FolderRes>builder()
+                .status(HttpStatus.OK.value())
+                .message("Folder retrieved")
+                .data(res)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @Operation(summary = "[x] Batch Create Folders",
             description = "폴더를 여러 개 생성합니다")
     @PostMapping("/batch-create/v1")

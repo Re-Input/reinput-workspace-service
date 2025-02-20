@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface FolderService {
     FolderDto createFolder(final FolderCreateReq folderCreateReq, final Long memberId);
+    FolderDto getFolder(final Long folderId, final Long memberId);
     void deleteFolder(final Long folderId, final Long memberId);
     FolderDto updateFolder(final FolderPatchReq folderPatchReq, final Long memberId);
     FolderCollection getFolders(final Long memberId);
