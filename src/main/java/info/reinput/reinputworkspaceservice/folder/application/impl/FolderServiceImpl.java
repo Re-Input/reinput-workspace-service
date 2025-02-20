@@ -33,6 +33,15 @@ public class FolderServiceImpl implements FolderService {
         return FolderDto.fromEntity(folderRepository.save(folder));
     }
 
+    public FolderDto getFolder(final Long folderId, final Long memberId){
+        log.info("[FolderService.getFolder] folderId : {}", folderId);
+
+        Folder folder = folderRepository.findByIdAndMemberId(folderId, memberId).orElseThrow(
+                () -> new IllegalArgumentException("Folder not found"));
+
+        return FolderDto.fromEntity(folder);
+    }
+
     @Transactional
     public void deleteFolder(final Long folderId, final Long memberId){
         log.info("deleteFolder start");
